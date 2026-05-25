@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Дмитрий Павлов — No-code разработчик, Bubble эксперт">
+  <title>Dmitriy Pavlov | Portfolio</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">DP</a>
+  <ul class="nav-links">
+    <li><a href="#about" id="nav-about">Обо мне</a></li>
+    <li><a href="#portfolio" id="nav-portfolio">Портфолио</a></li>
+    <li><a href="#contacts" id="nav-contacts">Контакты</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav drawer -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#about" id="mob-about">Обо мне</a>
+  <a href="#portfolio" id="mob-portfolio">Портфолио</a>
+  <a href="#contacts" id="mob-contacts">Контакты</a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">Открыт к проектам</div>
+    <h1 class="hero-name">
+      <span id="hero-name1">Дмитрий</span><br>
+      <span id="hero-name2">Павлов</span>
+    </h1>
+    <p class="hero-desc" id="hero-desc">No-code разработчик, специализирующийся на Bubble.</p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn-primary" id="hero-btn1">Посмотреть работы</a>
+      <a href="#contacts" class="btn-secondary" id="hero-btn2">Написать мне</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-value" id="hero-exp-val">3</div>
+        <div class="stat-label" id="hero-exp-label">лет опыта</div>
+      </div>
+      <div>
+        <div class="stat-value" id="hero-proj-val">30</div>
+        <div class="stat-label" id="hero-proj-label">проектов</div>
+      </div>
+      <div>
+        <div class="stat-value" id="hero-clients-val">20</div>
+        <div class="stat-label" id="hero-clients-label">клиентов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <h2 class="section-title" id="about-title">Обо мне</h2>
+  <div class="about-inner">
+    <div class="about-photo-wrap" id="about-photo">
+      <div class="about-photo-placeholder">👨‍💻</div>
+    </div>
+    <div class="about-text">
+      <div class="about-name" id="about-name">Дмитрий Павлов</div>
+      <div class="about-title" id="about-role">No-code разработчик · Bubble эксперт</div>
+      <p class="about-bio" id="about-bio">...</p>
+      <div class="skills-list" id="about-skills"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section id="portfolio">
+  <h2 class="section-title" id="portfolio-title">Портфолио</h2>
+  <p class="section-sub" id="portfolio-sub">Проекты, которые я создал</p>
+  <div class="category-tabs">
+    <button class="tab-btn active" id="tab-bubble" onclick="setCategory('bubble')">Bubble</button>
+    <button class="tab-btn" id="tab-code" onclick="setCategory('code')">Код</button>
+  </div>
+  <!-- Mobile hint -->
+  <div class="carousel-hint" id="carousel-hint" style="display:none">
+    <div class="carousel-hint-dots"><span></span><span></span><span></span></div>
+    <span class="hint-text">Листайте →</span>
+  </div>
+  <div class="cards-grid" id="cards-grid">
+    <!-- Cards rendered by JS -->
+  </div>
+</section>
+
+<!-- Contacts -->
+<section id="contacts">
+  <h2 class="section-title" id="contacts-title">Контакты</h2>
+  <div class="contacts-inner">
+    <div>
+      <h3 class="about-name" style="margin-bottom:.5rem" id="contacts-heading">Свяжитесь со мной</h3>
+      <p class="about-bio" id="contacts-sub" style="margin-bottom:1.5rem"></p>
+      <div class="contacts-info-list" id="contacts-list"></div>
+    </div>
+    <form class="contact-form" id="contact-form">
+      <div class="form-group">
+        <label id="form-name-label">Ваше имя</label>
+        <input type="text" name="name" required placeholder="Иван Петров">
+      </div>
+      <div class="form-group">
+        <label id="form-email-label">Email</label>
+        <input type="email" name="email" required placeholder="ivan@example.com">
+      </div>
+      <div class="form-group">
+        <label id="form-msg-label">Сообщение</label>
+        <textarea name="message" required placeholder="Расскажите о вашем проекте..."></textarea>
+      </div>
+      <div class="form-msg" id="form-msg"></div>
+      <button type="submit" class="form-submit" id="form-submit">Отправить</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span id="footer-text">© 2025 Дмитрий Павлов. Все права защищены.</span>
+</footer>
+
+<!-- Modal container -->
+<div id="modal"></div>
+
+<script src="/main.js"></script>
+</body>
+</html>

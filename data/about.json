@@ -1,0 +1,13 @@
+{
+  "nameRu": "Дмитрий Павлов",
+  "nameEn": "Dmitriy Pavlov",
+  "titleRu": "No-code разработчик · Bubble эксперт",
+  "titleEn": "No-code Developer · Bubble Expert",
+  "bioRu": "Специализируюсь на создании полноценных веб-приложений без кода на платформе Bubble. Разрабатываю MVP, маркетплейсы, CRM-системы и SaaS-продукты для стартапов и бизнеса. Помогаю запустить идею в продакшн быстро и без лишних затрат.",
+  "bioEn": "I specialize in building full-featured web applications without code on the Bubble platform. I develop MVPs, marketplaces, CRM systems, and SaaS products for startups and businesses. I help launch ideas into production quickly and cost-effectively.",
+  "photo": "",
+  "skills": ["Bubble.io", "No-code", "API Integration", "UI/UX Design", "Workflow Automation", "Database Design"],
+  "experienceYears": 3,
+  "projectsCount": 30,
+  "clientsCount": 20
+}
