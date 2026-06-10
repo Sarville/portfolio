@@ -8,7 +8,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Admin password
-const ADMIN_PASSWORD = 'pf_Admin2025';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+if (!ADMIN_PASSWORD) {
+  throw new Error('ADMIN_PASSWORD env var is required');
+}
 const ADMIN_HASH = crypto.createHash('sha256').update(ADMIN_PASSWORD).digest('hex');
 
 // In-memory sessions
