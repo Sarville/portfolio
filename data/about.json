@@ -1,13 +1,13 @@
 {
   "nameRu": "Дмитрий Павлов",
   "nameEn": "Dmitriy Pavlov",
-  "titleRu": "No-code разработчик · Bubble эксперт",
-  "titleEn": "No-code Developer · Bubble Expert",
-  "bioRu": "Специализируюсь на создании полноценных веб-приложений без кода на платформе Bubble. Разрабатываю MVP, маркетплейсы, CRM-системы и SaaS-продукты для стартапов и бизнеса. Помогаю запустить идею в продакшн быстро и без лишних затрат.",
-  "bioEn": "I specialize in building full-featured web applications without code on the Bubble platform. I develop MVPs, marketplaces, CRM systems, and SaaS products for startups and businesses. I help launch ideas into production quickly and cost-effectively.",
+  "titleRu": "AI × No-code builder",
+  "titleEn": "AI × No-code Builder",
+  "bioRu": "AI-first product developer с 20+ годами в IT и 5+ годами коммерческой разработки на Bubble.io. Собираю AI-продукты, внутренние сервисы и автоматизации на стыке no-code, low-code и fullstack-разработки. Использую Bubble, n8n, Supabase/Postgres, OpenAI API, RAG, webhooks, REST API, Cursor/Codex/Claude Code и другие coding agents. Силен в архитектуре, продуктовой логике, интеграциях, быстром запуске MVP и доведении идеи до работающего продукта. Развиваю ручной стек JavaScript/TypeScript/Python для более глубокой проверки и доработки AI-generated кода.",
+  "bioEn": "AI-first product developer with 20+ years in IT and 5+ years of commercial development on Bubble.io. I build AI products, internal tools, and automations at the intersection of no-code, low-code, and fullstack development. I work with Bubble, n8n, Supabase/Postgres, OpenAI API, RAG, webhooks, REST API, Cursor/Codex/Claude Code, and other coding agents. Strong in architecture, product logic, integrations, fast MVP delivery, and taking an idea to a working product. Growing a hands-on JavaScript/TypeScript/Python stack for deeper review and refinement of AI-generated code.",
   "photo": "",
-  "skills": ["Bubble.io", "No-code", "API Integration", "UI/UX Design", "Workflow Automation", "Database Design"],
-  "experienceYears": 3,
+  "skills": ["OpenAI API", "RAG", "AI Coding Agents", "JavaScript/TypeScript", "Python", "Supabase/Postgres", "n8n", "Bubble.io"],
+  "experienceYears": 20,
   "projectsCount": 30,
   "clientsCount": 20
 }

@@ -71,8 +71,8 @@ function showPage(page) {
 // === Projects ===
 function renderProjectsTable() {
   const tbody = qs('#projects-tbody');
-  const statusLabels = { live:'Работает', completed:'Завершён', 'in-development':'В разработке', paused:'На паузе' };
-  const statusCls   = { live:'s-live', completed:'s-completed', 'in-development':'s-in-development', paused:'s-paused' };
+  const statusLabels = { live:'Работает', completed:'Завершён', 'in-development':'В разработке', mvp:'MVP', paused:'На паузе' };
+  const statusCls   = { live:'s-live', completed:'s-completed', 'in-development':'s-in-development', mvp:'s-mvp', paused:'s-paused' };
   tbody.innerHTML = projects.map(p => `
     <tr>
       <td class="td-title">${esc(p.titleRu)}</td>
@@ -100,12 +100,14 @@ function openProjectModal(id) {
   // Populate fields
   setVal('#pf-title-ru', p?.titleRu);
   setVal('#pf-title-en', p?.titleEn);
+  setVal('#pf-link', p?.link);
   setVal('#pf-desc-ru', p?.descriptionRu);
   setVal('#pf-desc-en', p?.descriptionEn);
   setVal('#pf-fdesc-ru', p?.fullDescriptionRu);
   setVal('#pf-fdesc-en', p?.fullDescriptionEn);
   setVal('#pf-status', p?.status || 'completed');
   setVal('#pf-category', p?.category || 'bubble');
+  setVal('#pf-layout', p?.layout || 'horizontal');
   setVal('#pf-dur-ru', p?.durationRu);
   setVal('#pf-dur-en', p?.duration);
 
@@ -124,12 +126,14 @@ async function saveProject() {
   const data = {
     titleRu: getVal('#pf-title-ru'),
     titleEn: getVal('#pf-title-en'),
+    link: getVal('#pf-link'),
     descriptionRu: getVal('#pf-desc-ru'),
     descriptionEn: getVal('#pf-desc-en'),
     fullDescriptionRu: getVal('#pf-fdesc-ru'),
     fullDescriptionEn: getVal('#pf-fdesc-en'),
     status: getVal('#pf-status'),
     category: getVal('#pf-category'),
+    layout: getVal('#pf-layout'),
     durationRu: getVal('#pf-dur-ru'),
     duration: getVal('#pf-dur-en'),
     featuresRu: getTags('#features-ru-tags'),

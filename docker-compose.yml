@@ -1,0 +1,14 @@
+services:
+  portfolio:
+    build: .
+    container_name: portfolio-dev
+    ports:
+      - "${HOST_PORT:-4310}:3000"
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - SARVILLE_NOTIFY_URL=${SARVILLE_NOTIFY_URL}
+      - SARVILLE_NOTIFY_SECRET=${SARVILLE_NOTIFY_SECRET}
+    volumes:
+      - ./data:/app/data
+      - ./public/uploads:/app/public/uploads
+    restart: unless-stopped

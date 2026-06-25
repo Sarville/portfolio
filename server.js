@@ -86,6 +86,60 @@ app.get('/api/projects', (req, res) => res.json(read('projects')));
 app.get('/api/about', (req, res) => res.json(read('about')));
 app.get('/api/contacts', (req, res) => res.json(read('contacts')));
 
+// === Contact form -> relays to Sarville (Telegram bot) over the tailnet ===
+const SARVILLE_NOTIFY_URL = process.env.SARVILLE_NOTIFY_URL;
+const SARVILLE_NOTIFY_SECRET = process.env.SARVILLE_NOTIFY_SECRET;
+
+const CONTACT_WINDOW_MS = 60 * 60 * 1000;
+const CONTACT_MAX_PER_WINDOW = 5;
+const contactHits = new Map();
+
+function contactRateLimited(ip) {
+  const now = Date.now();
+  const hits = (contactHits.get(ip) || []).filter(t => now - t < CONTACT_WINDOW_MS);
+  hits.push(now);
+  contactHits.set(ip, hits);
+  return hits.length > CONTACT_MAX_PER_WINDOW;
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+app.post('/api/contact', async (req, res) => {
+  if (contactRateLimited(req.ip)) {
+    return res.status(429).json({ error: 'rate limited' });
+  }
+
+  const name = String(req.body.name || '').trim().slice(0, 100);
+  const email = String(req.body.email || '').trim().slice(0, 150);
+  const message = String(req.body.message || '').trim().slice(0, 2000);
+
+  if (!name || !message || !EMAIL_RE.test(email)) {
+    return res.status(400).json({ error: 'invalid input' });
+  }
+
+  if (!SARVILLE_NOTIFY_URL || !SARVILLE_NOTIFY_SECRET) {
+    console.error('Contact form: SARVILLE_NOTIFY_URL/SECRET not configured');
+    return res.status(503).json({ error: 'not configured' });
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const r = await fetch(SARVILLE_NOTIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Notify-Secret': SARVILLE_NOTIFY_SECRET },
+      body: JSON.stringify({ name, email, message }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (!r.ok) throw new Error(`upstream ${r.status}`);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('Contact form relay failed:', e.message);
+    res.status(502).json({ error: 'send failed' });
+  }
+});
+
 // === ADMIN - Projects ===
 app.post('/api/admin/projects', auth, upload.array('images', 20), (req, res) => {
   const projects = read('projects');

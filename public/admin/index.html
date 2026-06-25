@@ -73,7 +73,7 @@
       <div class="form-section-title" style="margin-top:0;border-top:none;padding-top:0">Фото</div>
       <div class="image-upload-area" id="ab-photo-area" style="max-width:300px">
         <input type="file" id="ab-photo-input" accept="image/*">
-        <div class="upload-icon">🖼️</div>
+        <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m21 15-5-5-9 9"></path></svg></div>
         <div class="upload-text">Нажмите, чтобы загрузить фото</div>
       </div>
       <div class="images-preview" id="ab-photo-preview" style="margin-top:0.75rem"></div>
@@ -211,7 +211,15 @@
             <option value="live">Работает</option>
             <option value="completed">Завершён</option>
             <option value="in-development">В разработке</option>
+            <option value="mvp">MVP</option>
             <option value="paused">На паузе</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Раскладка карточки</label>
+          <select id="pf-layout" class="form-select">
+            <option value="horizontal">Горизонтальная (веб/десктоп)</option>
+            <option value="vertical">Вертикальная (мобильное приложение)</option>
           </select>
         </div>
       </div>
@@ -226,6 +234,12 @@
           <label class="form-label">Название (EN)</label>
           <input type="text" id="pf-title-en" class="form-input" placeholder="Project Title">
         </div>
+      </div>
+
+      <!-- Project link -->
+      <div class="form-group">
+        <label class="form-label">Ссылка на проект</label>
+        <input type="url" id="pf-link" class="form-input" placeholder="https://example.com">
       </div>
 
       <!-- Short descriptions -->
@@ -293,7 +307,7 @@
       <div class="form-section-title">Фотографии</div>
       <div class="image-upload-area" id="img-upload-area">
         <input type="file" id="img-file-input" accept="image/*" multiple>
-        <div class="upload-icon">🖼️</div>
+        <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m21 15-5-5-9 9"></path></svg></div>
         <div class="upload-text">Нажмите или перетащите изображения</div>
         <div class="upload-hint">PNG, JPG, WEBP до 15 МБ каждый</div>
       </div>

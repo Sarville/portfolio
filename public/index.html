@@ -6,18 +6,23 @@
   <meta name="description" content="Дмитрий Павлов — No-code разработчик, Bubble эксперт">
   <title>Dmitriy Pavlov | Portfolio</title>
   <link rel="stylesheet" href="/style.css">
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav id="navbar">
-  <a class="nav-logo" href="#hero">DP</a>
+  <a class="nav-logo" href="#about">DP</a>
   <ul class="nav-links">
     <li><a href="#about" id="nav-about">Обо мне</a></li>
     <li><a href="#portfolio" id="nav-portfolio">Портфолио</a></li>
     <li><a href="#contacts" id="nav-contacts">Контакты</a></li>
   </ul>
   <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <span class="theme-icon theme-icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 3v2.2M12 18.8V21M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M3 12h2.2M18.8 12H21M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></span>
+      <span class="theme-icon theme-icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg></span>
+    </button>
     <div class="lang-toggle">
       <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
       <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
@@ -33,55 +38,53 @@
   <a href="#about" id="mob-about">Обо мне</a>
   <a href="#portfolio" id="mob-portfolio">Портфолио</a>
   <a href="#contacts" id="mob-contacts">Контакты</a>
-  <div class="lang-toggle">
-    <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
-    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <div class="mobile-nav-controls">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <span class="theme-icon theme-icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 3v2.2M12 18.8V21M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M3 12h2.2M18.8 12H21M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg></span>
+      <span class="theme-icon theme-icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg></span>
+    </button>
   </div>
 </div>
 
-<!-- Hero -->
-<section id="hero">
+<!-- About / Hero -->
+<section id="about">
   <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-badge" id="hero-badge">Открыт к проектам</div>
-    <h1 class="hero-name">
-      <span id="hero-name1">Дмитрий</span><br>
-      <span id="hero-name2">Павлов</span>
+  <div class="about-hero">
+    <div class="hero-badge ah-badge" id="hero-badge">Открыт к проектам</div>
+    <h1 class="hero-name ah-name">
+      <span id="hero-name1">Дмитрий</span> <span id="hero-name2">Павлов</span>
     </h1>
-    <p class="hero-desc" id="hero-desc">No-code разработчик, специализирующийся на Bubble.</p>
-    <div class="hero-btns">
+    <p class="about-bio ah-bio" id="about-bio">...</p>
+    <div class="skills-list ah-skills" id="about-skills"></div>
+    <div class="hero-btns ah-btns">
       <a href="#portfolio" class="btn-primary" id="hero-btn1">Посмотреть работы</a>
       <a href="#contacts" class="btn-secondary" id="hero-btn2">Написать мне</a>
     </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-value" id="hero-exp-val">3</div>
-        <div class="stat-label" id="hero-exp-label">лет опыта</div>
+    <div class="ah-photo">
+      <div class="about-photo-wrap" id="about-photo">
+        <div class="about-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"></path><path d="m15 7 5 5-5 5"></path></svg></div>
       </div>
-      <div>
-        <div class="stat-value" id="hero-proj-val">30</div>
-        <div class="stat-label" id="hero-proj-label">проектов</div>
+      <div class="ah-sticker" id="about-role">No-code разработчик · Bubble эксперт</div>
+      <div class="ah-stats">
+        <div>
+          <div class="stat-value" id="hero-exp-val">3</div>
+          <div class="stat-label" id="hero-exp-label">лет опыта</div>
+        </div>
+        <div class="ah-stats-divider"></div>
+        <div>
+          <div class="stat-value" id="hero-proj-val">30</div>
+          <div class="stat-label" id="hero-proj-label">проектов</div>
+        </div>
+        <div class="ah-stats-divider"></div>
+        <div>
+          <div class="stat-value" id="hero-clients-val">20</div>
+          <div class="stat-label" id="hero-clients-label">клиентов</div>
+        </div>
       </div>
-      <div>
-        <div class="stat-value" id="hero-clients-val">20</div>
-        <div class="stat-label" id="hero-clients-label">клиентов</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- About -->
-<section id="about">
-  <h2 class="section-title" id="about-title">Обо мне</h2>
-  <div class="about-inner">
-    <div class="about-photo-wrap" id="about-photo">
-      <div class="about-photo-placeholder">👨‍💻</div>
-    </div>
-    <div class="about-text">
-      <div class="about-name" id="about-name">Дмитрий Павлов</div>
-      <div class="about-title" id="about-role">No-code разработчик · Bubble эксперт</div>
-      <p class="about-bio" id="about-bio">...</p>
-      <div class="skills-list" id="about-skills"></div>
     </div>
   </div>
 </section>
@@ -91,8 +94,8 @@
   <h2 class="section-title" id="portfolio-title">Портфолио</h2>
   <p class="section-sub" id="portfolio-sub">Проекты, которые я создал</p>
   <div class="category-tabs">
-    <button class="tab-btn active" id="tab-bubble" onclick="setCategory('bubble')">Bubble</button>
-    <button class="tab-btn" id="tab-code" onclick="setCategory('code')">Код</button>
+    <button class="tab-btn active" id="tab-code" onclick="setCategory('code')">Код</button>
+    <button class="tab-btn" id="tab-bubble" onclick="setCategory('bubble')">Bubble</button>
   </div>
   <!-- Mobile hint -->
   <div class="carousel-hint" id="carousel-hint" style="display:none">

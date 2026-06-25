@@ -1,4 +1,12 @@
 node_modules/
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/degoverned-*.png
+!public/uploads/cofund-*.png
+!public/uploads/o-da-*.png
+!public/uploads/bossclub-*.jpg
+!public/uploads/iammodel-*.png
+!public/uploads/shootme-*.png
+!public/uploads/sarhub-*.png
 .env
+tmp/

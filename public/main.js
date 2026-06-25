@@ -1,6 +1,7 @@
 // === State ===
 let lang = localStorage.getItem('lang') || 'ru';
-let category = 'bubble';
+let theme = localStorage.getItem('theme') || 'light';
+let category = 'code';
 let projects = [];
 let about = {};
 let contacts = {};
@@ -9,9 +10,6 @@ let contacts = {};
 const T = {
   ru: {
     available: 'Открыт к проектам',
-    hero_title1: 'Дмитрий',
-    hero_title2: 'Павлов',
-    hero_desc: 'No-code разработчик, специализирующийся на Bubble. Создаю веб-приложения, MVP и SaaS-продукты быстро и качественно.',
     hero_btn1: 'Посмотреть работы',
     hero_btn2: 'Написать мне',
     hero_exp: 'лет опыта',
@@ -20,7 +18,6 @@ const T = {
     nav_about: 'Обо мне',
     nav_portfolio: 'Портфолио',
     nav_contacts: 'Контакты',
-    about_title: 'Обо мне',
     portfolio_title: 'Портфолио',
     portfolio_sub: 'Проекты, которые я создал',
     tab_bubble: 'Bubble',
@@ -32,7 +29,9 @@ const T = {
     status_paused: 'На паузе',
     duration: 'Срок',
     integrations_label: 'Интеграции',
+    visit_project: 'Открыть',
     view_more: 'Подробнее',
+    read_more: 'Читать больше',
     close: 'Закрыть',
     features: 'Возможности',
     full_desc: 'Описание',
@@ -48,9 +47,6 @@ const T = {
   },
   en: {
     available: 'Available for projects',
-    hero_title1: 'Dmitriy',
-    hero_title2: 'Pavlov',
-    hero_desc: 'No-code developer specializing in Bubble. I build web apps, MVPs and SaaS products quickly and with quality.',
     hero_btn1: 'View my work',
     hero_btn2: 'Contact me',
     hero_exp: 'years of exp.',
@@ -59,7 +55,6 @@ const T = {
     nav_about: 'About',
     nav_portfolio: 'Portfolio',
     nav_contacts: 'Contacts',
-    about_title: 'About Me',
     portfolio_title: 'Portfolio',
     portfolio_sub: 'Projects I have built',
     tab_bubble: 'Bubble',
@@ -71,7 +66,9 @@ const T = {
     status_paused: 'Paused',
     duration: 'Duration',
     integrations_label: 'Integrations',
+    visit_project: 'Visit',
     view_more: 'View More',
+    read_more: 'Read more',
     close: 'Close',
     features: 'Features',
     full_desc: 'Description',
@@ -89,6 +86,27 @@ const T = {
 
 function t(key) { return T[lang][key] || key; }
 
+// === Contact icons (inline SVG, stroke-style) ===
+const ICONS = {
+  email: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="m4 7.5 6.8 5.2a2 2 0 0 0 2.4 0L20 7.5"></path></svg>`,
+  telegram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 11 13"></path><path d="M21 3 14.5 21 11 13 3 9.5 21 3Z"></path></svg>`,
+  linkedin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><line x1="8" y1="11" x2="8" y2="16"></line><circle cx="8" cy="7.2" r="0.5" fill="currentColor" stroke="none"></circle><path d="M12 16v-3.2a1.8 1.8 0 0 1 3.6 0V16"></path><line x1="12" y1="11" x2="12" y2="16"></line></svg>`,
+  whatsapp: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0-7.8-4.5L3 21l4.7-1.2A9 9 0 0 0 12 21Z"></path><path d="M8.5 11c.3 2 2.5 4.2 4.5 4.5.8.1 1.4-.6 1.2-1.3l-.3-1a.7.7 0 0 0-.7-.5h-1c-.7-.5-1.6-1.4-2.1-2.1v-1a.7.7 0 0 0-.5-.7l-1-.3c-.7-.2-1.4.4-1.1 1.2Z"></path></svg>`,
+  github: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.477 2 2 6.484 2 12.014c0 4.42 2.865 8.166 6.839 9.49.5.093.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.455-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.833.09-.647.349-1.088.635-1.339-2.221-.253-4.555-1.114-4.555-4.954 0-1.094.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.594 1.028 2.688 0 3.85-2.338 4.698-4.566 4.946.359.309.678.92.678 1.855 0 1.338-.012 2.418-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.014C22 6.484 17.522 2 12 2Z"></path></svg>`,
+};
+
+// === UI icons (inline SVG, same stroke style as ICONS — used for placeholders/meta rows) ===
+const UI_ICONS = {
+  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"></path><path d="m15 7 5 5-5 5"></path></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg>`,
+  puzzle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3a1 1 0 0 0 1-1V5a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1a2 2 0 0 0-4 0v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a2 2 0 0 0 0-4H5a1 1 0 0 1-1-1V7Z"></path></svg>`,
+  externalLink: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"></path><path d="M20 4 10 14"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>`,
+  image: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m21 15-5-5-9 9"></path></svg>`,
+  rocket: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 2 4 5.5 4 9.5 0 2-.5 4-1.3 5.5L12 19l-2.7-2c-.8-1.5-1.3-3.5-1.3-5.5C8 7.5 9.5 4 12 2Z"></path><path d="M9 14c-1.5 0-3 1-3.5 3.5C7 17 8.5 16.5 9 15"></path><path d="M15 14c1.5 0 3 1 3.5 3.5C17 17 15.5 16.5 15 15"></path><circle cx="12" cy="9.5" r="1.6"></circle><path d="M10 19.5 9 22M14 19.5l1 2.5"></path></svg>`,
+  sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 3v2.2M12 18.8V21M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M3 12h2.2M18.8 12H21M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg>`,
+  moon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>`,
+};
+
 // === Language ===
 function setLang(l) {
   lang = l;
@@ -97,6 +115,22 @@ function setLang(l) {
     btn.classList.toggle('active', btn.dataset.lang === l);
   });
   renderAll();
+}
+
+// === Theme ===
+function applyTheme(th) {
+  theme = th;
+  document.documentElement.setAttribute('data-theme', th);
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.classList.toggle('is-dark', th === 'dark');
+  });
+}
+function setTheme(th) {
+  localStorage.setItem('theme', th);
+  applyTheme(th);
+}
+function toggleTheme() {
+  setTheme(theme === 'light' ? 'dark' : 'light');
 }
 
 // === Data fetching ===
@@ -130,18 +164,11 @@ function renderStatic() {
   qs('#mob-contacts').textContent = t('nav_contacts');
   // Hero
   qs('#hero-badge').textContent = t('available');
-  qs('#hero-name1').textContent = t('hero_title1');
-  qs('#hero-name2').textContent = t('hero_title2');
-  qs('#hero-desc').textContent = t('hero_desc');
   qs('#hero-btn1').textContent = t('hero_btn1');
   qs('#hero-btn2').textContent = t('hero_btn2');
   qs('#hero-exp-label').textContent = t('hero_exp');
   qs('#hero-proj-label').textContent = t('hero_proj');
   qs('#hero-clients-label').textContent = t('hero_clients');
-  // Stats
-  qs('#hero-exp-val').textContent = about.experienceYears || 3;
-  qs('#hero-proj-val').textContent = about.projectsCount || 30;
-  qs('#hero-clients-val').textContent = about.clientsCount || 20;
   // Portfolio
   qs('#portfolio-title').textContent = t('portfolio_title');
   qs('#portfolio-sub').textContent = t('portfolio_sub');
@@ -152,16 +179,22 @@ function renderStatic() {
 }
 
 function renderAbout() {
-  qs('#about-title').textContent = t('about_title');
-  qs('#about-name').textContent = lang === 'ru' ? about.nameRu : about.nameEn;
+  const name = (lang === 'ru' ? about.nameRu : about.nameEn) || '';
+  const [firstName, ...rest] = name.split(' ');
+  qs('#hero-name1').textContent = firstName || '';
+  qs('#hero-name2').textContent = rest.join(' ');
   qs('#about-role').textContent = lang === 'ru' ? about.titleRu : about.titleEn;
   qs('#about-bio').textContent = lang === 'ru' ? about.bioRu : about.bioEn;
+  // Stats
+  qs('#hero-exp-val').textContent = about.experienceYears || 0;
+  qs('#hero-proj-val').textContent = about.projectsCount || 0;
+  qs('#hero-clients-val').textContent = about.clientsCount || 0;
   // Photo
   const photoWrap = qs('#about-photo');
   if (about.photo) {
     photoWrap.innerHTML = `<img src="${about.photo}" alt="${about.nameEn}">`;
   } else {
-    photoWrap.innerHTML = `<div class="about-photo-placeholder">👨‍💻</div>`;
+    photoWrap.innerHTML = `<div class="about-photo-placeholder">${UI_ICONS.code}</div>`;
   }
   // Skills
   const skillsEl = qs('#about-skills');
@@ -179,7 +212,7 @@ function renderPortfolio() {
 
   if (!filtered.length) {
     grid.innerHTML = `<div class="no-projects">
-      <div class="no-projects-icon">🚀</div>
+      <div class="no-projects-icon">${UI_ICONS.rocket}</div>
       <div>${t('no_projects')}</div>
     </div>`;
     return;
@@ -192,54 +225,67 @@ const STATUS_MAP = {
   live: { ru: 'Работает', en: 'Live', cls: 'status-live' },
   completed: { ru: 'Завершён', en: 'Completed', cls: 'status-completed' },
   'in-development': { ru: 'В разработке', en: 'In Development', cls: 'status-in-development' },
+  mvp: { ru: 'MVP', en: 'MVP', cls: 'status-mvp' },
   paused: { ru: 'На паузе', en: 'Paused', cls: 'status-paused' },
 };
 
 function buildCard(p) {
   const title = lang === 'ru' ? p.titleRu : p.titleEn;
   const desc = lang === 'ru' ? p.descriptionRu : p.descriptionEn;
+  const fullDesc = lang === 'ru' ? p.fullDescriptionRu : p.fullDescriptionEn;
   const features = (lang === 'ru' ? p.featuresRu : p.features) || [];
   const duration = lang === 'ru' ? p.durationRu : p.duration;
   const statusInfo = STATUS_MAP[p.status] || STATUS_MAP.completed;
   const statusText = statusInfo[lang];
+  const vertical = p.layout === 'vertical';
+  const contain = p.imageFit === 'contain';
 
-  const mediaHtml = buildCarousel(p.images, p.id, title);
+  const mediaHtml = buildCarousel(p.images, title, { openOnClick: p.id, vertical, contain });
   const chipsHtml = features.map(f => `<span class="chip">${esc(f)}</span>`).join('');
   const intHtml = (p.integrations || []).map(i => `<span class="int-chip">${esc(i)}</span>`).join('');
+  const readMoreHtml = fullDesc ? `
+      <details class="full-desc-details">
+        <summary class="read-more-toggle">${t('read_more')}<span class="chevron"></span></summary>
+        <p class="card-full-desc">${esc(fullDesc)}</p>
+      </details>` : '';
+  const linkLineHtml = p.link ? `
+      <a href="${esc(p.link)}" target="_blank" rel="noopener" class="card-link-line"><span class="link-icon">${UI_ICONS.externalLink}</span>${t('visit_project')}</a>` : '';
 
-  return `<div class="card" data-id="${p.id}">
-    ${mediaHtml}
-    <div class="card-body">
+  return `<div class="card${vertical ? ' card-vertical' : ''}" data-id="${p.id}">
+    <div class="card-info">
       <div class="card-top">
         <h3 class="card-title">${esc(title)}</h3>
         <span class="status-badge ${statusInfo.cls}">${statusText}</span>
       </div>
+      ${linkLineHtml}
       <p class="card-desc">${esc(desc)}</p>
       <div class="chips-row">${chipsHtml}</div>
       <div class="card-meta">
-        <div class="meta-row"><span class="meta-icon">⏱</span><span>${t('duration')}: ${esc(duration)}</span></div>
-        ${intHtml ? `<div class="meta-row"><span class="meta-icon">🔗</span><div class="integrations-chips">${intHtml}</div></div>` : ''}
+        <div class="meta-row"><span class="meta-icon">${UI_ICONS.clock}</span><span>${t('duration')}: ${esc(duration)}</span></div>
+        ${intHtml ? `<div class="meta-row"><span class="meta-icon">${UI_ICONS.puzzle}</span><div class="integrations-chips">${intHtml}</div></div>` : ''}
       </div>
-      <button class="btn-view" onclick="openModal('${p.id}')">${t('view_more')}</button>
     </div>
+    <div class="card-media-wrap">${mediaHtml}</div>
+    <div class="card-readmore">${readMoreHtml}</div>
   </div>`;
 }
 
-function buildCarousel(images, id, alt) {
+function buildCarousel(images, alt, opts = {}) {
   if (!images || !images.length) {
-    return `<div class="card-placeholder">📁</div>`;
+    return `<div class="card-placeholder">${UI_ICONS.image}</div>`;
   }
-  const slides = images.map((src, i) =>
-    `<img src="${src}" alt="${esc(alt)}" class="carousel-slide">`
+  const slides = images.map((src) =>
+    `<img src="${src}" alt="${esc(alt)}" class="carousel-slide${opts.contain ? ' contain' : ''}">`
   ).join('');
   const dots = images.length > 1
-    ? `<div class="carousel-dots">${images.map((_, i) => `<div class="dot${i===0?' active':''}" onclick="cardDotClick(this,${i})"></div>`).join('')}</div>`
+    ? `<div class="carousel-dots">${images.map((_, i) => `<div class="dot${i===0?' active':''}" onclick="event.stopPropagation();cardDotClick(this,${i})"></div>`).join('')}</div>`
     : '';
   const btns = images.length > 1
-    ? `<button class="carousel-btn prev" onclick="cardSlide(this,-1)">&#8249;</button>
-       <button class="carousel-btn next" onclick="cardSlide(this,1)">&#8250;</button>`
+    ? `<button class="carousel-btn prev" onclick="event.stopPropagation();cardSlide(this,-1)"></button>
+       <button class="carousel-btn next" onclick="event.stopPropagation();cardSlide(this,1)"></button>`
     : '';
-  return `<div class="card-carousel" data-idx="0" data-count="${images.length}">
+  const clickAttr = opts.openOnClick ? ` onclick="openLightbox('${opts.openOnClick}')" role="button" tabindex="0"` : '';
+  return `<div class="card-carousel${opts.vertical ? ' vertical' : ''}" data-idx="0" data-count="${images.length}"${clickAttr}>
     <div class="carousel-track">${slides}</div>
     ${btns}${dots}
   </div>`;
@@ -265,64 +311,30 @@ function carouselSet(c, idx) {
   c.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
 }
 
-// === Modal ===
+// === Lightbox (screenshots-only carousel) ===
 let modalCarousel = { idx: 0, count: 0 };
 
-function openModal(id) {
+function openLightbox(id) {
   const p = projects.find(x => x.id === id);
-  if (!p) return;
+  if (!p || !p.images || !p.images.length) return;
   const title = lang === 'ru' ? p.titleRu : p.titleEn;
-  const fullDesc = lang === 'ru' ? p.fullDescriptionRu : p.fullDescriptionEn;
-  const features = (lang === 'ru' ? p.featuresRu : p.features) || [];
-  const duration = lang === 'ru' ? p.durationRu : p.duration;
-  const statusInfo = STATUS_MAP[p.status] || STATUS_MAP.completed;
+  const vertical = p.layout === 'vertical';
 
-  // Carousel
-  modalCarousel = { idx: 0, count: (p.images || []).length };
-  const imgHtml = p.images && p.images.length
-    ? `<div class="card-carousel modal-carousel" data-idx="0" data-count="${p.images.length}" id="modal-car">
-        <div class="carousel-track">
-          ${p.images.map(src => `<img src="${src}" alt="${esc(title)}" class="carousel-slide">`).join('')}
-        </div>
-        ${p.images.length > 1 ? `
-          <button class="carousel-btn prev" onclick="modalSlide(-1)">&#8249;</button>
-          <button class="carousel-btn next" onclick="modalSlide(1)">&#8250;</button>
-          <div class="carousel-dots">${p.images.map((_,i)=>`<div class="dot${i===0?' active':''}" onclick="modalDot(${i})"></div>`).join('')}</div>
-        ` : ''}
-      </div>`
-    : `<div class="modal-placeholder">📁</div>`;
-
-  const chipsHtml = features.map(f => `<span class="chip">${esc(f)}</span>`).join('');
-  const intHtml = (p.integrations || []).map(i => `<span class="int-chip">${esc(i)}</span>`).join('');
+  modalCarousel = { idx: 0, count: p.images.length };
 
   qs('#modal').innerHTML = `
     <div class="modal-overlay open" id="modal-overlay" onclick="overlayClick(event)">
-      <div class="modal">
-        ${imgHtml}
-        <div class="modal-body">
-          <div class="modal-top">
-            <h2 class="modal-title">${esc(title)}</h2>
-            <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal lightbox-modal">
+        <button class="modal-close lightbox-close" onclick="closeModal()">✕</button>
+        <div class="card-carousel lightbox-carousel${vertical ? ' vertical' : ''}" data-idx="0" data-count="${p.images.length}" id="modal-car">
+          <div class="carousel-track">
+            ${p.images.map(src => `<img src="${src}" alt="${esc(title)}" class="carousel-slide contain">`).join('')}
           </div>
-          <p class="modal-desc">${esc(fullDesc || '')}</p>
-          <div class="modal-grid">
-            <div class="modal-section">
-              <div class="modal-section-title">${t('features')}</div>
-              <div class="chips-row">${chipsHtml}</div>
-            </div>
-            <div class="modal-section">
-              <div class="modal-section-title">${t('duration')}</div>
-              <div class="chip" style="width:fit-content">${esc(duration)}</div>
-            </div>
-            <div class="modal-section">
-              <div class="modal-section-title">Status</div>
-              <span class="status-badge ${statusInfo.cls}">${statusInfo[lang]}</span>
-            </div>
-            ${intHtml ? `<div class="modal-section">
-              <div class="modal-section-title">${t('integrations_label')}</div>
-              <div class="integrations-chips">${intHtml}</div>
-            </div>` : ''}
-          </div>
+          ${p.images.length > 1 ? `
+            <button class="carousel-btn prev" onclick="modalSlide(-1)"></button>
+            <button class="carousel-btn next" onclick="modalSlide(1)"></button>
+            <div class="carousel-dots">${p.images.map((_,i)=>`<div class="dot${i===0?' active':''}" onclick="modalDot(${i})"></div>`).join('')}</div>
+          ` : ''}
         </div>
       </div>
     </div>`;
@@ -380,18 +392,33 @@ function initNavbar() {
   });
 }
 
-// === Contact form (cosmetic only – no backend handler) ===
+// === Contact form ===
 function initForm() {
   const form = qs('#contact-form');
   if (!form) return;
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const msg = qs('#form-msg');
-    // Just show success (no actual email sending without backend config)
-    msg.className = 'form-msg success';
-    msg.textContent = t('form_success');
-    form.reset();
-    setTimeout(() => { msg.className = 'form-msg'; }, 5000);
+    const submitBtn = qs('#form-submit');
+    const data = Object.fromEntries(new FormData(form).entries());
+    submitBtn.disabled = true;
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error('request failed');
+      msg.className = 'form-msg success';
+      msg.textContent = t('form_success');
+      form.reset();
+    } catch {
+      msg.className = 'form-msg error';
+      msg.textContent = t('form_error');
+    } finally {
+      submitBtn.disabled = false;
+      setTimeout(() => { msg.className = 'form-msg'; }, 5000);
+    }
   });
 }
 
@@ -406,11 +433,11 @@ function renderContacts() {
 
   const list = qs('#contacts-list');
   const items = [];
-  if (contacts.email) items.push({ icon: '✉️', label: 'Email', value: contacts.email, href: `mailto:${contacts.email}` });
-  if (contacts.telegram) items.push({ icon: '✈️', label: 'Telegram', value: contacts.telegram, href: `https://t.me/${contacts.telegram.replace('@','')}` });
-  if (contacts.linkedin) items.push({ icon: '💼', label: 'LinkedIn', value: contacts.linkedin, href: `https://` + contacts.linkedin });
-  if (contacts.whatsapp) items.push({ icon: '📱', label: 'WhatsApp', value: contacts.whatsapp, href: `https://wa.me/${contacts.whatsapp.replace(/\D/g,'')}` });
-  if (contacts.github) items.push({ icon: '🐙', label: 'GitHub', value: contacts.github, href: `https://github.com/${contacts.github.replace('@','')}` });
+  if (contacts.email) items.push({ icon: ICONS.email, label: 'Email', value: contacts.email, href: `mailto:${contacts.email}` });
+  if (contacts.telegram) items.push({ icon: ICONS.telegram, label: 'Telegram', value: contacts.telegram, href: `https://t.me/${contacts.telegram.replace('@','')}` });
+  if (contacts.linkedin) items.push({ icon: ICONS.linkedin, label: 'LinkedIn', value: contacts.linkedin, href: `https://` + contacts.linkedin });
+  if (contacts.whatsapp) items.push({ icon: ICONS.whatsapp, label: 'WhatsApp', value: contacts.whatsapp, href: `https://wa.me/${contacts.whatsapp.replace(/\D/g,'')}` });
+  if (contacts.github) items.push({ icon: ICONS.github, label: 'GitHub', value: contacts.github, href: `https://github.com/${contacts.github.replace('@','')}` });
 
   list.innerHTML = items.map(item => `
     <a href="${item.href}" target="_blank" rel="noopener" class="contact-item">
@@ -446,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
+  applyTheme(theme);
   initForm();
   loadData();
 });
