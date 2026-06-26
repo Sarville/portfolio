@@ -105,6 +105,10 @@ const UI_ICONS = {
   rocket: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 2 4 5.5 4 9.5 0 2-.5 4-1.3 5.5L12 19l-2.7-2c-.8-1.5-1.3-3.5-1.3-5.5C8 7.5 9.5 4 12 2Z"></path><path d="M9 14c-1.5 0-3 1-3.5 3.5C7 17 8.5 16.5 9 15"></path><path d="M15 14c1.5 0 3 1 3.5 3.5C17 17 15.5 16.5 15 15"></path><circle cx="12" cy="9.5" r="1.6"></circle><path d="M10 19.5 9 22M14 19.5l1 2.5"></path></svg>`,
   sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 3v2.2M12 18.8V21M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M3 12h2.2M18.8 12H21M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"></path></svg>`,
   moon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>`,
+  zoomIn: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21 16.65 16.65M11 8v6M8 11h6"/></svg>`,
+  zoomOut: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21 16.65 16.65M8 11h6"/></svg>`,
+  fullscreen: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4"/></svg>`,
+  exitFullscreen: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M21 7h-4V3M17 21v-4h4M3 17h4v4"/></svg>`,
 };
 
 // === Language ===
@@ -284,7 +288,7 @@ function buildCarousel(images, alt, opts = {}) {
     ? `<button class="carousel-btn prev" onclick="event.stopPropagation();cardSlide(this,-1)"></button>
        <button class="carousel-btn next" onclick="event.stopPropagation();cardSlide(this,1)"></button>`
     : '';
-  const clickAttr = opts.openOnClick ? ` onclick="openLightbox('${opts.openOnClick}')" role="button" tabindex="0"` : '';
+  const clickAttr = opts.openOnClick ? ` onclick="openLightbox('${opts.openOnClick}',+this.dataset.idx)" role="button" tabindex="0"` : '';
   return `<div class="card-carousel${opts.vertical ? ' vertical' : ''}" data-idx="0" data-count="${images.length}"${clickAttr}>
     <div class="carousel-track">${slides}</div>
     ${btns}${dots}
@@ -313,28 +317,41 @@ function carouselSet(c, idx) {
 
 // === Lightbox (screenshots-only carousel) ===
 let modalCarousel = { idx: 0, count: 0 };
+let lbState = { zoom: 1 };
 
-function openLightbox(id) {
+function openLightbox(id, startIdx = 0) {
   const p = projects.find(x => x.id === id);
   if (!p || !p.images || !p.images.length) return;
   const title = lang === 'ru' ? p.titleRu : p.titleEn;
   const vertical = p.layout === 'vertical';
+  const count = p.images.length;
+  startIdx = Math.max(0, Math.min(startIdx, count - 1));
 
-  modalCarousel = { idx: 0, count: p.images.length };
+  modalCarousel = { idx: startIdx, count };
+  lbState.zoom = 1;
+
+  const dotsHtml = count > 1
+    ? `<div class="carousel-dots">${p.images.map((_,i)=>`<div class="dot${i===startIdx?' active':''}" onclick="modalDot(${i})"></div>`).join('')}</div>`
+    : '';
+  const btnsHtml = count > 1
+    ? `<button class="carousel-btn prev" onclick="modalSlide(-1)"></button>
+       <button class="carousel-btn next" onclick="modalSlide(1)"></button>`
+    : '';
 
   qs('#modal').innerHTML = `
     <div class="modal-overlay open" id="modal-overlay" onclick="overlayClick(event)">
       <div class="modal lightbox-modal">
         <button class="modal-close lightbox-close" onclick="closeModal()">✕</button>
-        <div class="card-carousel lightbox-carousel${vertical ? ' vertical' : ''}" data-idx="0" data-count="${p.images.length}" id="modal-car">
-          <div class="carousel-track">
+        <div class="card-carousel lightbox-carousel${vertical ? ' vertical' : ''}" data-idx="${startIdx}" data-count="${count}" id="modal-car">
+          <div class="carousel-track" style="transform:translateX(-${startIdx * 100}%)">
             ${p.images.map(src => `<img src="${src}" alt="${esc(title)}" class="carousel-slide contain">`).join('')}
           </div>
-          ${p.images.length > 1 ? `
-            <button class="carousel-btn prev" onclick="modalSlide(-1)"></button>
-            <button class="carousel-btn next" onclick="modalSlide(1)"></button>
-            <div class="carousel-dots">${p.images.map((_,i)=>`<div class="dot${i===0?' active':''}" onclick="modalDot(${i})"></div>`).join('')}</div>
-          ` : ''}
+          ${btnsHtml}${dotsHtml}
+          <div class="lb-toolbar">
+            <button class="lb-btn" onclick="event.stopPropagation();lbZoom(-0.25)" title="Уменьшить">${UI_ICONS.zoomOut}</button>
+            <button class="lb-btn" onclick="event.stopPropagation();lbZoom(+0.25)" title="Увеличить">${UI_ICONS.zoomIn}</button>
+            <button class="lb-btn lb-fs-btn" onclick="event.stopPropagation();lbFullscreen()" title="На весь экран">${UI_ICONS.fullscreen}</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -353,11 +370,43 @@ function overlayClick(e) {
 
 function modalSlide(dir) {
   const c = qs('#modal-car');
-  if (c) carouselMove(c, dir);
+  if (!c) return;
+  lbZoomReset(c);
+  carouselMove(c, dir);
 }
 function modalDot(idx) {
   const c = qs('#modal-car');
-  if (c) carouselSet(c, idx);
+  if (!c) return;
+  lbZoomReset(c);
+  carouselSet(c, idx);
+}
+
+function lbZoomReset(car) {
+  lbState.zoom = 1;
+  (car || qs('#modal-car')).querySelectorAll('.carousel-slide').forEach(img => {
+    img.style.transform = '';
+  });
+}
+
+function lbZoom(delta) {
+  const car = qs('#modal-car');
+  if (!car) return;
+  lbState.zoom = Math.min(4, Math.max(0.5, lbState.zoom + delta));
+  const idx = +car.dataset.idx;
+  const slides = car.querySelectorAll('.carousel-slide');
+  if (slides[idx]) {
+    slides[idx].style.transform = lbState.zoom === 1 ? '' : `scale(${lbState.zoom})`;
+  }
+}
+
+function lbFullscreen() {
+  const overlay = qs('#modal-overlay');
+  if (!overlay) return;
+  if (!document.fullscreenElement) {
+    overlay.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
 }
 
 // === Category tabs ===
@@ -464,6 +513,19 @@ function esc(s) {
 // === Keyboard support ===
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
+  if (!qs('#modal-overlay')) return;
+  if (e.key === 'ArrowLeft') modalSlide(-1);
+  if (e.key === 'ArrowRight') modalSlide(1);
+  if (e.key === '+' || e.key === '=') lbZoom(+0.25);
+  if (e.key === '-') lbZoom(-0.25);
+});
+
+document.addEventListener('fullscreenchange', () => {
+  const btn = qs('.lb-fs-btn');
+  if (!btn) return;
+  const inFs = !!document.fullscreenElement;
+  btn.innerHTML = inFs ? UI_ICONS.exitFullscreen : UI_ICONS.fullscreen;
+  btn.title = inFs ? 'Выйти из полного экрана' : 'На весь экран';
 });
 
 // === Init ===
