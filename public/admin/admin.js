@@ -112,6 +112,7 @@ function openProjectModal(id) {
   setVal('#pf-dur-en', p?.duration);
 
   // Tags
+  renderTags('#stack-tags', p?.tags || []);
   renderTags('#features-ru-tags', p?.featuresRu || []);
   renderTags('#features-en-tags', p?.features || []);
   renderTags('#integrations-tags', p?.integrations || []);
@@ -136,6 +137,7 @@ async function saveProject() {
     layout: getVal('#pf-layout'),
     durationRu: getVal('#pf-dur-ru'),
     duration: getVal('#pf-dur-en'),
+    tags: getTags('#stack-tags'),
     featuresRu: getTags('#features-ru-tags'),
     features: getTags('#features-en-tags'),
     integrations: getTags('#integrations-tags'),

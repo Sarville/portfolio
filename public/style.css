@@ -476,6 +476,7 @@ section { padding: 100px 5%; }
 /* Card body */
 .card-info {
   padding: 1.6rem 1.8rem 1.4rem; display: flex; flex-direction: column; gap: 1rem;
+  flex: 1;
 }
 .card-readmore {
   padding: 1rem 1.8rem 1.6rem;
@@ -500,6 +501,13 @@ section { padding: 100px 5%; }
 .card-desc { font-size: 1.1rem; color: var(--text-m); line-height: 1.65; }
 
 .chips-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags-row { margin-bottom: 4px; }
+.tag-chip {
+  font-size: 0.76rem; font-weight: 700; font-family: var(--font-mono, 'Courier New', monospace);
+  background: var(--accent-dim); border: 1.5px solid var(--border-h);
+  color: var(--accent-b); padding: 2px 9px; border-radius: 4px;
+  letter-spacing: 0.03em; text-transform: uppercase;
+}
 .chip {
   font-size: 0.8rem; font-weight: 500;
   background: var(--bg2); border: 1px solid var(--border);
@@ -538,7 +546,7 @@ section { padding: 100px 5%; }
 .full-desc-details summary:hover { color: var(--text); }
 .card-full-desc {
   font-size: 0.92rem; color: var(--text-m); line-height: 1.7;
-  margin-top: 0.7rem;
+  margin-top: 0.7rem; white-space: pre-line;
 }
 
 .card-link-line {

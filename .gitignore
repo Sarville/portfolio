@@ -8,5 +8,10 @@ public/uploads/*
 !public/uploads/iammodel-*.png
 !public/uploads/shootme-*.png
 !public/uploads/sarhub-*.png
+!public/uploads/popvault-*.png
+!public/uploads/jsclub-*.jpg
+!public/uploads/jetspace-*.png
+!public/uploads/socialsomm-*.png
+!public/uploads/sarville*.png
 .env
 tmp/
