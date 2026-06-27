@@ -227,71 +227,19 @@ function renderPortfolio() {
 }
 
 function initCardExpand(grid) {
-  const COLS_BREAKPOINT = 980;
-
-  function lockRowHeights() {
-    const cards = [...grid.querySelectorAll('.card')];
-    cards.forEach(c => { c.style.minHeight = ''; c.style.maxHeight = ''; c.style.height = ''; c.style.alignSelf = ''; delete c._lockedH; });
-
-    const cols = window.innerWidth <= COLS_BREAKPOINT ? 1 : 2;
-
-    if (cols > 1) {
-      // Только строки где все карточки вертикальные — фиксируем высоту по минимуму натуральных
-      // Строки с горизонтальными соседями не трогаем: там растяжка нормальная
-      for (let i = 0; i < cards.length; i += cols) {
-        const row = cards.slice(i, i + cols);
-        if (row.length > 1 && row.every(c => c.classList.contains('card-vertical'))) {
-          row.forEach(c => { c.style.alignSelf = 'start'; });
-          const minH = Math.min(...row.map(c => c.getBoundingClientRect().height));
-          row.forEach(c => {
-            c.style.alignSelf = '';
-            c.style.height = minH + 'px';
-            c._lockedH = minH;
-          });
-        }
-      }
-    }
-
-    for (let i = 0; i < cards.length; i += cols) {
-      const row = cards.slice(i, i + cols);
-      if (row.some(c => c.classList.contains('card-vertical'))) continue;
-      const maxH = Math.max(...row.map(c => c.getBoundingClientRect().height));
-      row.forEach(c => {
-        c.style.minHeight = maxH + 'px';
-        c.style.maxHeight = maxH + 'px';
-        c._lockedH = maxH;
+  const cards = [...grid.querySelectorAll('.card')];
+  cards.forEach(card => {
+    const details = card.querySelector('.full-desc-details');
+    if (!details) return;
+    details.addEventListener('toggle', () => {
+      if (!details.open) return;
+      cards.forEach(other => {
+        if (other === card) return;
+        const od = other.querySelector('.full-desc-details');
+        if (od && od.open) od.open = false;
       });
-    }
-
-    cards.forEach(card => {
-      const details = card.querySelector('.full-desc-details');
-      if (!details || card._expandBound) return;
-      card._expandBound = () => {
-        const isVert = card.classList.contains('card-vertical');
-        if (details.open) {
-          cards.forEach(other => {
-            if (other === card) return;
-            const otherDetails = other.querySelector('.full-desc-details');
-            if (otherDetails && otherDetails.open) otherDetails.open = false;
-          });
-          if (isVert) { card.style.height = ''; } else { card.style.maxHeight = ''; }
-        } else {
-          if (card._lockedH) {
-            if (isVert) { card.style.height = card._lockedH + 'px'; } else { card.style.maxHeight = card._lockedH + 'px'; }
-          }
-        }
-      };
-      details.addEventListener('toggle', card._expandBound);
     });
-  }
-
-  requestAnimationFrame(lockRowHeights);
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(lockRowHeights, 150);
-  }, { passive: true });
+  });
 }
 
 
@@ -334,6 +282,7 @@ function buildCard(p) {
       </div>
       ${linkLineHtml}
       <p class="card-desc">${esc(desc)}</p>
+      ${readMoreHtml}
       ${tagsHtml ? `<div class="chips-row tags-row">${tagsHtml}</div>` : ''}
       <div class="chips-row">${chipsHtml}</div>
       <div class="card-meta">
@@ -342,7 +291,6 @@ function buildCard(p) {
       </div>
     </div>
     <div class="card-media-wrap">${mediaHtml}</div>
-    <div class="card-readmore">${readMoreHtml}</div>
   </div>`;
 }
 

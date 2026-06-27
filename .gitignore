@@ -13,5 +13,6 @@ public/uploads/*
 !public/uploads/jetspace-*.png
 !public/uploads/socialsomm-*.png
 !public/uploads/sarville*.png
+!public/uploads/sarville-android-*.jpg
 .env
 tmp/
