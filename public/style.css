@@ -387,7 +387,7 @@ section { padding: 100px 5%; }
 /* Vertical (mobile-app) layout: title + text left, image right */
 .card-vertical {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr min(40%, 359px);
   column-gap: 1.2rem;
   align-items: start;
   align-self: start;
@@ -398,7 +398,7 @@ section { padding: 100px 5%; }
 .card-vertical .card-media-wrap {
   padding: 1.6rem 1.4rem 1.6rem 0; box-sizing: border-box;
 }
-.card-vertical .card-carousel { width: 100%; height: auto; aspect-ratio: 9 / 20; min-height: unset; }
+.card-vertical .card-carousel { width: 100%; height: auto; aspect-ratio: 9 / 20; max-height: calc(800px - 3.2rem); min-height: unset; }
 @media (max-width: 768px) {
   .card-vertical { grid-template-columns: 1fr; column-gap: 0; }
   .card-vertical .card-media-wrap { grid-column: 1; padding: 1rem 1.6rem 1.4rem; display: flex; justify-content: center; }
