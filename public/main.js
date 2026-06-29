@@ -1,7 +1,6 @@
 // === State ===
 let lang = localStorage.getItem('lang') || 'ru';
 let theme = localStorage.getItem('theme') || 'light';
-let category = 'code';
 let projects = [];
 let about = {};
 let contacts = {};
@@ -20,8 +19,6 @@ const T = {
     nav_contacts: 'Контакты',
     portfolio_title: 'Портфолио',
     portfolio_sub: 'Проекты, которые я создал',
-    tab_bubble: 'Bubble',
-    tab_code: 'Код',
     no_projects: 'Проекты в разработке...',
     status_live: 'Работает',
     status_completed: 'Завершён',
@@ -57,8 +54,6 @@ const T = {
     nav_contacts: 'Contacts',
     portfolio_title: 'Portfolio',
     portfolio_sub: 'Projects I have built',
-    tab_bubble: 'Bubble',
-    tab_code: 'Code',
     no_projects: 'Projects coming soon...',
     status_live: 'Live',
     status_completed: 'Completed',
@@ -176,8 +171,6 @@ function renderStatic() {
   // Portfolio
   qs('#portfolio-title').textContent = t('portfolio_title');
   qs('#portfolio-sub').textContent = t('portfolio_sub');
-  qs('#tab-bubble').textContent = t('tab_bubble');
-  qs('#tab-code').textContent = t('tab_code');
   // Footer
   qs('#footer-text').textContent = t('footer');
 }
@@ -206,7 +199,10 @@ function renderAbout() {
 }
 
 function renderPortfolio() {
-  const filtered = projects.filter(p => p.category === category);
+  const filtered = [...projects].sort((a, b) => {
+    if (a.category === b.category) return 0;
+    return a.category === 'code' ? -1 : 1;
+  });
   const grid = qs('#cards-grid');
 
   // Mobile hint
@@ -427,14 +423,6 @@ function lbFullscreen() {
   } else {
     document.exitFullscreen().catch(() => {});
   }
-}
-
-// === Category tabs ===
-function setCategory(cat) {
-  category = cat;
-  qs('#tab-bubble').classList.toggle('active', cat === 'bubble');
-  qs('#tab-code').classList.toggle('active', cat === 'code');
-  renderPortfolio();
 }
 
 // === Navbar ===
