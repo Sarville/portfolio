@@ -199,10 +199,7 @@ function renderAbout() {
 }
 
 function renderPortfolio() {
-  const filtered = [...projects].sort((a, b) => {
-    if (a.category === b.category) return 0;
-    return a.category === 'code' ? -1 : 1;
-  });
+  const filtered = projects;
   const grid = qs('#cards-grid');
 
   // Mobile hint

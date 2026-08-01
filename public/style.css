@@ -745,6 +745,8 @@ footer {
     transform: none !important;
   }
   .card:last-child { margin-right: 5vw; }
+  /* cards-grid is overflow-x:auto here, which clips the other axis too — hover shadow gets cut off */
+  .card:hover { box-shadow: none; }
 
   /* Scroll indicator */
   .carousel-hint {
