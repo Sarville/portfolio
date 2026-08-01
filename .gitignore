@@ -14,5 +14,6 @@ public/uploads/*
 !public/uploads/socialsomm-*.png
 !public/uploads/sarville*.png
 !public/uploads/sarville-android-*.jpg
+!public/uploads/zapime-*.webp
 .env
 tmp/

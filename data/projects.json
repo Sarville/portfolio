@@ -250,5 +250,24 @@
     "integrations": [],
     "images": ["/uploads/shootme-1.png", "/uploads/shootme-2.png", "/uploads/shootme-3.png", "/uploads/shootme-4.png"],
     "link": ""
+  },
+  {
+    "id": "14",
+    "category": "code",
+    "titleRu": "Запиши Меня",
+    "titleEn": "Zapime",
+    "descriptionRu": "SaaS-платформа онлайн-записи для мастеров и салонов красоты: конструктор персональной страницы, расписание и мультиспециалистная запись, уведомления в мессенджеры и биллинг подписки.",
+    "descriptionEn": "A SaaS online-booking platform for beauty and personal-service businesses: a drag-and-drop page builder, multi-specialist scheduling, messenger notifications, and subscription billing.",
+    "fullDescriptionRu": "Работающий в продакшене сервис онлайн-записи под брендом «ЗапишиМеня»: у каждого аккаунта — компания с одним или несколькими сотрудниками, конструктор персональной страницы с виджетами услуг, специалистов, галереи и соцсетей, несколькими темами оформления и публикацией на собственном поддомене. Расписание строится на материализованных рабочих днях с ленивым автопродлением на 140 дней вперёд, слоты — с фиксированным шагом и учётом занятости, перерывов и пересечений; форма записи для клиента — с проверкой чёрного списка и опциональной предоплатой.\n\nБэкенд — FastAPI/SQLAlchemy/Alembic поверх PostgreSQL, файлы и вложения — в S3-совместимом хранилище (Yandex Object Storage). Уведомления уходят клиентам и владельцам в Telegram, MAX и ВКонтакте через ботов и Callback API, а также по email и SMS с фолбэком между провайдерами; вход в кабинет — через magic-link, OTP по телефону и OAuth (VK ID, Яндекс ID) на общей модели identity-привязок. Биллинг тарифных планов и промокоды подключены через ЮKassa — с апгрейдом/даунгрейдом подписки без потери оплаченного остатка и автосписаниями по расписанию.\n\nФронтенд — Next.js 15/React 19/TypeScript/Tailwind v4: отдельно кабинет владельца (записи, клиенты, аналитика), отдельно публичные страницы мастеров на поддоменах. Рядом — своя суперадминка с сетевым периметром и аудитом действий операторов. CI/CD на GitHub Actions с автотестами, линтом и автодеплоем на прод по пушу в main.",
+    "fullDescriptionEn": "A production SaaS booking service under the brand \"ЗапишиМеня\" (\"Book Me\"): every account is a company with one or more staff members, a page builder with widgets for services, specialists, a gallery and social links, several visual themes, and publishing on its own subdomain. Scheduling is built on materialized working days that lazily auto-extend 140 days ahead; slots use a fixed step and account for existing bookings, breaks, and overlaps, while the client-facing booking form checks a blacklist and supports optional prepayment.\n\nThe backend is FastAPI/SQLAlchemy/Alembic on top of PostgreSQL, with files and attachments in S3-compatible storage (Yandex Object Storage). Notifications reach clients and owners over Telegram, MAX, and VKontakte via bots and Callback APIs, plus email and SMS with provider fallback; sign-in uses magic links, phone OTP, and OAuth (VK ID, Yandex ID) on a shared identity-linking model. Plan billing and promo codes run through YooKassa, with upgrade/downgrade that preserves the paid remainder and scheduled auto-charges.\n\nThe frontend is Next.js 15/React 19/TypeScript/Tailwind v4: a separate owner dashboard (bookings, clients, analytics) and separate public pages for specialists on their own subdomains. A dedicated super-admin panel adds a network perimeter and operator audit logging. CI/CD runs on GitHub Actions with tests, linting, and auto-deploy to production on push to main.",
+    "status": "live",
+    "tags": ["Next.js", "React", "TypeScript", "FastAPI", "PostgreSQL", "Tailwind CSS"],
+    "features": ["Page Builder", "Booking & Scheduling", "Multi-Channel Notifications", "Subscription Billing"],
+    "featuresRu": ["Конструктор страницы", "Расписание и запись", "Мультиканальные уведомления", "Биллинг подписки"],
+    "duration": "Ongoing",
+    "durationRu": "В активной разработке",
+    "integrations": ["ЮKassa", "Telegram Bot API", "MAX Bot API", "VK Callback API", "VK ID / Яндекс ID", "Yandex Object Storage"],
+    "images": ["/uploads/zapime-1.webp", "/uploads/zapime-2.webp", "/uploads/zapime-3.webp", "/uploads/zapime-4.webp"],
+    "link": "https://zapime.ru/"
   }
 ]
